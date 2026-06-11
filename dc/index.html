@@ -1,127 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <style>
-        @page {
-            size: A4;
-            margin: 20mm;
-        }
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-        }
-        .content {
-            width: 100%;
-            padding: 20mm;
-            box-sizing: border-box;
-            background-color: #f9f9f9;
-            border: 1px solid #ccc;
-            margin: 20px auto;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        h1, p {
-            margin: 0 0 10px;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Abu Jafar Al Farhad – CV</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink:      #1a1a2e;
+    --mid:      #4a4a6a;
+    --dim:      #8888aa;
+    --rule:     #d8d8e8;
+    --accent:   #0057ff;
+    --accent2:  #00c2a8;
+    --bg-page:  #e8e8f0;
+    --white:    #ffffff;
+
+    --page-w: 210mm;
+    --page-h: 297mm;
+    --margin-x: 14mm;
+    --margin-y: 12mm;
+
+    --font-body: 'IBM Plex Sans', sans-serif;
+    --font-mono: 'IBM Plex Mono', monospace;
+  }
+
+  html, body {
+    background: var(--bg-page);
+    font-family: var(--font-body);
+    color: var(--ink);
+  }
+
+  /* ── PAGE SHELL ────────────────────────────────────── */
+  .page {
+    width: var(--page-w);
+    min-height: var(--page-h);
+    background: var(--white);
+    margin: 12mm auto;
+    padding: var(--margin-y) var(--margin-x);
+    page-break-after: always;
+    position: relative;
+    box-shadow: 0 4px 32px rgba(0,0,87,.12);
+  }
+
+  /* ── HEADER ────────────────────────────────────────── */
+  .cv-header {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 6mm;
+    padding-bottom: 6mm;
+    border-bottom: 2px solid var(--accent);
+    margin-bottom: 6mm;
+  }
+  .cv-header__name {
+    font-size: 22pt;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+    line-height: 1.1;
+    color: var(--ink);
+  }
+  .cv-header__title {
+    font-size: 9pt;
+    font-weight: 400;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-top: 2mm;
+    font-family: var(--font-mono);
+  }
+  .cv-header__contact {
+    text-align: right;
+    font-size: 7.5pt;
+    color: var(--mid);
+    line-height: 1.8;
+    font-family: var(--font-mono);
+  }
+  .cv-header__contact a { color: var(--accent); text-decoration: none; }
+
+  /* ── SECTION ───────────────────────────────────────── */
+  .section {
+    margin-bottom: 5mm;
+  }
+  .section__label {
+    font-size: 6.5pt;
+    font-weight: 500;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--accent2);
+    font-family: var(--font-mono);
+    margin-bottom: 2.5mm;
+    padding-bottom: 1mm;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  /* ── SUMMARY ───────────────────────────────────────── */
+  .summary {
+    font-size: 8pt;
+    line-height: 1.65;
+    color: var(--mid);
+  }
+
+  /* ── SKILLS GRID ───────────────────────────────────── */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2.5mm 5mm;
+  }
+  .skill-group__name {
+    font-size: 7pt;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 0.8mm;
+  }
+  .skill-group__tags {
+    font-size: 6.8pt;
+    color: var(--mid);
+    line-height: 1.55;
+  }
+
+  /* ── EXPERIENCE ────────────────────────────────────── */
+  .job {
+    margin-bottom: 4.5mm;
+    padding-left: 3mm;
+    border-left: 2px solid var(--rule);
+  }
+  .job:last-child { margin-bottom: 0; }
+
+  .job__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 3mm;
+    margin-bottom: 0.8mm;
+  }
+  .job__title {
+    font-size: 9pt;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .job__period {
+    font-size: 7pt;
+    color: var(--accent);
+    font-family: var(--font-mono);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .job__company {
+    font-size: 7.5pt;
+    color: var(--mid);
+    margin-bottom: 1.8mm;
+  }
+  .job__bullets {
+    list-style: none;
+    padding: 0;
+  }
+  .job__bullets li {
+    font-size: 7.5pt;
+    line-height: 1.6;
+    color: var(--mid);
+    padding-left: 4mm;
+    position: relative;
+    margin-bottom: 0.5mm;
+  }
+  .job__bullets li::before {
+    content: '▸';
+    position: absolute;
+    left: 0;
+    color: var(--accent2);
+    font-size: 6pt;
+    top: 1.5pt;
+  }
+
+  /* ── EDUCATION ─────────────────────────────────────── */
+  .edu-list {
+    list-style: none;
+  }
+  .edu-list li {
+    font-size: 7.8pt;
+    line-height: 1.55;
+    color: var(--mid);
+    padding-left: 4mm;
+    position: relative;
+    margin-bottom: 2mm;
+  }
+  .edu-list li::before {
+    content: '▸';
+    position: absolute;
+    left: 0;
+    color: var(--accent2);
+    font-size: 6pt;
+    top: 1.5pt;
+  }
+  .edu-list strong {
+    color: var(--ink);
+    font-weight: 600;
+  }
+  .edu-list span {
+    display: block;
+    font-size: 7pt;
+    color: var(--dim);
+    font-family: var(--font-mono);
+  }
+
+  /* ── TWO-COLUMN LAYOUT ─────────────────────────────── */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5mm;
+  }
+
+  /* ── PAGE FOOTER ───────────────────────────────────── */
+  .page-footer {
+    position: absolute;
+    bottom: 6mm;
+    left: var(--margin-x);
+    right: var(--margin-x);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 6.5pt;
+    color: var(--dim);
+    font-family: var(--font-mono);
+    border-top: 1px solid var(--rule);
+    padding-top: 2mm;
+  }
+  .page-footer__accent {
+    display: inline-block;
+    width: 4mm;
+    height: 1mm;
+    background: var(--accent);
+    margin-right: 1.5mm;
+    vertical-align: middle;
+  }
+
+  /* ── ACTIVE BADGE ──────────────────────────────────── */
+  .badge {
+    display: inline-block;
+    background: var(--accent2);
+    color: #fff;
+    font-size: 5.5pt;
+    font-family: var(--font-mono);
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 0.8mm 2mm;
+    border-radius: 1px;
+    margin-left: 2mm;
+    vertical-align: middle;
+  }
+
+  /* ── PRINT ─────────────────────────────────────────── */
+  @media print {
+    html, body { background: white; }
+    .page {
+      margin: 0;
+      box-shadow: none;
+      page-break-after: always;
+    }
+  }
+</style>
 </head>
 <body>
-    <div class="content">
-<p><strong><span data-contrast="none"><span data-ccp-parastyle="heading 1">ABU JAFAR AL FARHAD</span></span></strong><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;134245418&quot;:true,&quot;134245529&quot;:true,&quot;335551550&quot;:0,&quot;335551620&quot;:0,&quot;335559738&quot;:0,&quot;335559739&quot;:322}">&nbsp;</span></p>
-<p><strong><span data-contrast="auto">Location:</span></strong><span data-contrast="auto">&nbsp;Kotka, Finland |&nbsp;</span><strong><span data-contrast="auto">Phone:</span></strong><span data-contrast="auto">&nbsp;(+358) 415774143 |&nbsp;</span><strong><span data-contrast="auto">Email:</span></strong><span data-contrast="auto">&nbsp;</span><a href="mailto:abujafaralfarhad@gmail.com"><span data-contrast="none"><span data-ccp-charstyle="Hyperlink">abujafaralfarhad@gmail.com</span></span></a><span data-contrast="auto">&nbsp;</span><strong><span data-contrast="auto">Links:</span></strong><span data-contrast="auto">&nbsp;</span><a href="https://www.google.com/search?q=https://linkedin.com/in/ajaf"><span data-contrast="none"><span data-ccp-charstyle="Hyperlink">LinkedIn</span></span></a><span data-contrast="auto">&nbsp;|&nbsp;</span><a href="https://www.google.com/search?q=https://nbfarhad.github.io"><span data-contrast="none"><span data-ccp-charstyle="Hyperlink">GitHub Pages</span></span></a><span data-contrast="auto">&nbsp;|&nbsp;</span><strong><span data-contrast="auto">Languages:</span></strong><span data-contrast="auto">&nbsp;English (Proficient), Finnish (Basic/A2)&nbsp;</span><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559738&quot;:0,&quot;335559739&quot;:240}">&nbsp;</span></p>
-<p><strong><span data-contrast="none"><span data-ccp-parastyle="heading 2">PROFESSIONAL SUMMARY</span></span></strong><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;134245418&quot;:true,&quot;134245529&quot;:true,&quot;335551550&quot;:0,&quot;335551620&quot;:0,&quot;335559738&quot;:0,&quot;335559739&quot;:299}">&nbsp;</span></p>
-<p><span data-contrast="auto">Highly skilled and resilient IT Infrastructure Engineer with over 10 years of experience encompassing Linux System Administration, Enterprise Networking, and Data Center Infrastructure Operations. Currently executing physical layer fiber deployments on-site at the Google Hamina Data Center. Deep technical&nbsp;expertise&nbsp;across the deployment spectrum, ranging from structural cabling, high-density patch fields, and hardware lifecycle installations to Layer 2/3 network topology, server virtualization (Proxmox, KVM), and Linux CLI systems diagnostics. Proven&nbsp;track record&nbsp;of&nbsp;operating&nbsp;safely and efficiently within mission-critical environments under strict compliance standards.&nbsp;</span><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559738&quot;:0,&quot;335559739&quot;:240}">&nbsp;</span></p>
-<p><strong><span data-contrast="none"><span data-ccp-parastyle="heading 2">TECHNICAL SKILLS MATRIX</span></span></strong><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;134245418&quot;:true,&quot;134245529&quot;:true,&quot;335551550&quot;:0,&quot;335551620&quot;:0,&quot;335559738&quot;:0,&quot;335559739&quot;:299}">&nbsp;</span></p>
-<ul>
-<li data-leveltext="" data-font="Symbol" data-listid="7" data-list-defn-props="{&quot;335552541&quot;:1,&quot;335559683&quot;:0,&quot;335559684&quot;:-2,&quot;335559685&quot;:420,&quot;335559991&quot;:420,&quot;469769226&quot;:&quot;Symbol&quot;,&quot;469769242&quot;:[8226],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" data-aria-posinset="1" data-aria-level="1"><strong><span data-contrast="auto">Data Center Operations:</span></strong><span data-contrast="auto">&nbsp;Fiber Optic Deployment, Structured Cabling (Singlemode/Multimode), Rack Integration, Rack Elevation, Hardware Break-Fix (CPU, RAM, Storage&nbsp;replacement), FRU Management.&nbsp;</span><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559738&quot;:240,&quot;335559739&quot;:240}">&nbsp;</span></li>
-</ul>
-<ul>
-<li data-leveltext="" data-font="Symbol" data-listid="7" data-list-defn-props="{&quot;335552541&quot;:1,&quot;335559683&quot;:0,&quot;335559684&quot;:-2,&quot;335559685&quot;:420,&quot;335559991&quot;:420,&quot;469769226&quot;:&quot;Symbol&quot;,&quot;469769242&quot;:[8226],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" data-aria-posinset="2" data-aria-level="1"><strong><span data-contrast="auto">Systems Administration:</span></strong><span data-contrast="auto">&nbsp;Linux Expert (Ubuntu, Debian, CentOS, RedHat CLI), User &amp; Access Provisioning, LVM, Package Management, Service/Daemon Management.&nbsp;</span><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559738&quot;:240,&quot;335559739&quot;:240}">&nbsp;</span></li>
-</ul>
-<ul>
-<li data-leveltext="" data-font="Symbol" data-listid="7" data-list-defn-props="{&quot;335552541&quot;:1,&quot;335559683&quot;:0,&quot;335559684&quot;:-2,&quot;335559685&quot;:420,&quot;335559991&quot;:420,&quot;469769226&quot;:&quot;Symbol&quot;,&quot;469769242&quot;:[8226],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" data-aria-posinset="3" data-aria-level="1"><strong><span data-contrast="auto">Networking &amp; Protocols:</span></strong><span data-contrast="auto">&nbsp;TCP/IP, LAN/WLAN, Subnetting, DNS, DHCP, VPN Bridging, Mikrotik Router Administration, Port Patching, Network Monitoring (Nagios,&nbsp;LibreNMS).&nbsp;</span><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559738&quot;:240,&quot;335559739&quot;:240}">&nbsp;</span></li>
-</ul>
-<ul>
-<li data-leveltext="" data-font="Symbol" data-listid="7" data-list-defn-props="{&quot;335552541&quot;:1,&quot;335559683&quot;:0,&quot;335559684&quot;:-2,&quot;335559685&quot;:420,&quot;335559991&quot;:420,&quot;469769226&quot;:&quot;Symbol&quot;,&quot;469769242&quot;:[8226],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" data-aria-posinset="4" data-aria-level="1"><strong><span data-contrast="auto">Virtualization &amp; Cloud:</span></strong><span data-contrast="auto">&nbsp;Proxmox&nbsp;VE, VMware, Linux KVM, Docker Containerization, AWS, Azure,&nbsp;DigitalOcean.&nbsp;</span><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559738&quot;:240,&quot;335559739&quot;:240}">&nbsp;</span></li>
-</ul>
-<ul>
-<li data-leveltext="" data-font="Symbol" data-listid="7" data-list-defn-props="{&quot;335552541&quot;:1,&quot;335559683&quot;:0,&quot;335559684&quot;:-2,&quot;335559685&quot;:420,&quot;335559991&quot;:420,&quot;469769226&quot;:&quot;Symbol&quot;,&quot;469769242&quot;:[8226],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" data-aria-posinset="5" data-aria-level="1"><strong><span data-contrast="auto">Site Safety &amp; Compliance:</span></strong><span data-contrast="auto">&nbsp;Google Data Center Safety Culture, Mobile Elevating Work Platforms (MEWPs) Spotting, Hazard Mitigation, ESD Control, Clearance Enforcements.&nbsp;</span><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559738&quot;:240,&quot;335559739&quot;:240}">&nbsp;</span></li>
-</ul>
-<p><strong><span data-contrast="none"><span data-ccp-parastyle="heading 2">PROFESSIONAL EXPERIENCE</span></span></strong><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;134245418&quot;:true,&quot;134245529&quot;:true,&quot;335551550&quot;:0,&quot;335551620&quot;:0,&quot;335559738&quot;:0,&quot;335559739&quot;:299}">&nbsp;</span></p>
-<p><strong><span data-contrast="none"><span data-ccp-parastyle="heading 3">ICT Installer / Data Center Technician (Google Data Center, Hamina)</span></span></strong><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;134245418&quot;:true,&quot;134245529&quot;:true,&quot;335551550&quot;:0,&quot;335551620&quot;:0,&quot;335559738&quot;:0,&quot;335559739&quot;:281}">&nbsp;</span></p>
-<p><strong><span data-contrast="auto">Adecco Finland Oy / Fiber Highway Oy</span></strong><span data-contrast="auto">&nbsp;|&nbsp;</span><em><span data-contrast="auto">Jan 2026 &ndash; Present (Hamina, Finland)</span></em><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559738&quot;:0,&quot;335559739&quot;:240}">&nbsp;</span></p>
-<ul>
-<li data-leveltext="" data-font="Symbol" data-listid="8" data-list-defn-props="{&quot;335552541&quot;:1,&quot;335559683&quot;:0,&quot;335559684&quot;:-2,&quot;335559685&quot;:420,&quot;335559991&quot;:420,&quot;469769226&quot;:&quot;Symbol&quot;,&quot;469769242&quot;:[8226],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" data-aria-posinset="1" data-aria-level="1"><strong><span data-contrast="auto">Physical Layer Infrastructure:</span></strong><span data-contrast="auto">&nbsp;Execute precision pulling, routing, and high-density termination of&nbsp;singlemode&nbsp;and multimode fiber optic infrastructure inside an active hyper-scale Google production environment.&nbsp;</span><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559738&quot;:240,&quot;335559739&quot;:240}">&nbsp;</span></li>
-</ul>
-<ul>
-<li data-leveltext="" data-font="Symbol" data-listid="8" data-list-defn-props="{&quot;335552541&quot;:1,&quot;335559683&quot;:0,&quot;335559684&quot;:-2,&quot;335559685&quot;:420,&quot;335559991&quot;:420,&quot;469769226&quot;:&quot;Symbol&quot;,&quot;469769242&quot;:[8226],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" data-aria-posinset="2" data-aria-level="1"><strong><span data-contrast="auto">Hardware Lifecycle Deployment:</span></strong><span data-contrast="auto">&nbsp;Perform physical layer technical installations, server rack seating, and component-level device patching for critical infrastructure networking hardware.&nbsp;</span><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559738&quot;:240,&quot;335559739&quot;:240}">&nbsp;</span></li>
-</ul>
-<ul>
-<li data-leveltext="" data-font="Symbol" data-listid="8" data-list-defn-props="{&quot;335552541&quot;:1,&quot;335559683&quot;:0,&quot;335559684&quot;:-2,&quot;335559685&quot;:420,&quot;335559991&quot;:420,&quot;469769226&quot;:&quot;Symbol&quot;,&quot;469769242&quot;:[8226],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" data-aria-posinset="3" data-aria-level="1"><strong><span data-contrast="auto">Quality Assurance &amp; Testing:</span></strong><span data-contrast="auto">&nbsp;Read and interpret complex technical blueprints and routing installation guides to ensure rigorous infrastructure quality control and design tolerances.&nbsp;</span><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559738&quot;:240,&quot;335559739&quot;:240}">&nbsp;</span></li>
-</ul>
-<ul>
-<li data-leveltext="" data-font="Symbol" data-listid="8" data-list-defn-props="{&quot;335552541&quot;:1,&quot;335559683&quot;:0,&quot;335559684&quot;:-2,&quot;335559685&quot;:420,&quot;335559991&quot;:420,&quot;469769226&quot;:&quot;Symbol&quot;,&quot;469769242&quot;:[8226],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" data-aria-posinset="4" data-aria-level="1"><strong><span data-contrast="auto">Mission-Critical Safety:</span></strong><span data-contrast="auto">&nbsp;Maintain&nbsp;an unblemished, incident-free safety record on active production floors, strictly enforcing height-safety, industrial safety protocols, and cross-functional team mitigation measures.&nbsp;</span><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559738&quot;:240,&quot;335559739&quot;:240}">&nbsp;</span></li>
-</ul>
-<p><strong><span data-contrast="none"><span data-ccp-parastyle="heading 3">Spotter (Site Safety Assistant &ndash; Google Data Center Expansion LPP6-A)</span></span></strong><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;134245418&quot;:true,&quot;134245529&quot;:true,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559738&quot;:0,&quot;335559739&quot;:281}">&nbsp;</span></p>
-<p><strong><span data-contrast="auto">Lisapalvelu&nbsp;Kotka Oy / DECO Engineering</span></strong><span data-contrast="auto">&nbsp;|&nbsp;</span><em><span data-contrast="auto">May 2025 &ndash; Dec 2025 (Hamina, Finland)</span></em><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559738&quot;:0,&quot;335559739&quot;:240}">&nbsp;</span></p>
-<ul>
-<li data-leveltext="" data-font="Symbol" data-listid="9" data-list-defn-props="{&quot;335552541&quot;:1,&quot;335559683&quot;:0,&quot;335559684&quot;:-2,&quot;335559685&quot;:420,&quot;335559991&quot;:420,&quot;469769226&quot;:&quot;Symbol&quot;,&quot;469769242&quot;:[8226],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" data-aria-posinset="1" data-aria-level="1"><strong><span data-contrast="auto">Infrastructure Risk Mitigation:</span></strong><span data-contrast="auto">&nbsp;Managed on-site safety operations for electrical engineering teams during the critical construction and deployment phases of Google&rsquo;s LPP6-A hyper-scale expansion.&nbsp;</span><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559738&quot;:240,&quot;335559739&quot;:240}">&nbsp;</span></li>
-</ul>
-<ul>
-<li data-leveltext="" data-font="Symbol" data-listid="9" data-list-defn-props="{&quot;335552541&quot;:1,&quot;335559683&quot;:0,&quot;335559684&quot;:-2,&quot;335559685&quot;:420,&quot;335559991&quot;:420,&quot;469769226&quot;:&quot;Symbol&quot;,&quot;469769242&quot;:[8226],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" data-aria-posinset="2" data-aria-level="1"><strong><span data-contrast="auto">Operational Safety Coordination:</span></strong><span data-contrast="auto">&nbsp;Controlled heavy machinery movements, MEWPs, and crane clearances using structured two-way radio patterns and standard signaling to prevent structural impacts and personnel hazards.&nbsp;</span><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559738&quot;:240,&quot;335559739&quot;:240}">&nbsp;</span></li>
-</ul>
-<ul>
-<li data-leveltext="" data-font="Symbol" data-listid="9" data-list-defn-props="{&quot;335552541&quot;:1,&quot;335559683&quot;:0,&quot;335559684&quot;:-2,&quot;335559685&quot;:420,&quot;335559991&quot;:420,&quot;469769226&quot;:&quot;Symbol&quot;,&quot;469769242&quot;:[8226],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" data-aria-posinset="3" data-aria-level="1"><strong><span data-contrast="auto">Zone Isolation Management:</span></strong><span data-contrast="auto">&nbsp;Maintained&nbsp;physical barriers, exclusion zones, and hazard-mitigation vectors near live electrical systems, fostering a zero-accident safety environment.&nbsp;</span><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559738&quot;:240,&quot;335559739&quot;:240}">&nbsp;</span></li>
-</ul>
-<p><strong><span data-contrast="none"><span data-ccp-parastyle="heading 3">Infrastructure Manager / Senior Infrastructure Engineer</span></span></strong><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;134245418&quot;:true,&quot;134245529&quot;:true,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559738&quot;:0,&quot;335559739&quot;:281}">&nbsp;</span></p>
-<p><strong><span data-contrast="auto">Tappware&nbsp;Solutions Limited</span></strong><span data-contrast="auto">&nbsp;|&nbsp;</span><em><span data-contrast="auto">Jul 2018 &ndash;&nbsp;Nov 2025(Dhaka, Bangladesh / Remote)</span></em><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559738&quot;:0,&quot;335559739&quot;:240}">&nbsp;</span></p>
-<ul>
-<li data-leveltext="" data-font="Symbol" data-listid="10" data-list-defn-props="{&quot;335552541&quot;:1,&quot;335559683&quot;:0,&quot;335559684&quot;:-2,&quot;335559685&quot;:420,&quot;335559991&quot;:420,&quot;469769226&quot;:&quot;Symbol&quot;,&quot;469769242&quot;:[8226],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" data-aria-posinset="1" data-aria-level="1"><strong><span data-contrast="auto">Systems &amp; Server Administration:</span></strong><span data-contrast="auto">&nbsp;Handled deep-level administration, configuration, and bare-metal support for physical hardware machines and virtualized production nodes running Linux distributions (Ubuntu, Debian, RedHat).&nbsp;</span><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559738&quot;:240,&quot;335559739&quot;:240}">&nbsp;</span></li>
-</ul>
-<ul>
-<li data-leveltext="" data-font="Symbol" data-listid="10" data-list-defn-props="{&quot;335552541&quot;:1,&quot;335559683&quot;:0,&quot;335559684&quot;:-2,&quot;335559685&quot;:420,&quot;335559991&quot;:420,&quot;469769226&quot;:&quot;Symbol&quot;,&quot;469769242&quot;:[8226],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" data-aria-posinset="2" data-aria-level="1"><strong><span data-contrast="auto">Hardware Break-Fix &amp; Diagnostics:</span></strong><span data-contrast="auto">&nbsp;Successfully&nbsp;resolved&nbsp;complex hardware, operating system, and software network faults, performing remote&nbsp;component&nbsp;diagnostics and resource allocations.&nbsp;</span><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559738&quot;:240,&quot;335559739&quot;:240}">&nbsp;</span></li>
-</ul>
-<ul>
-<li data-leveltext="" data-font="Symbol" data-listid="10" data-list-defn-props="{&quot;335552541&quot;:1,&quot;335559683&quot;:0,&quot;335559684&quot;:-2,&quot;335559685&quot;:420,&quot;335559991&quot;:420,&quot;469769226&quot;:&quot;Symbol&quot;,&quot;469769242&quot;:[8226],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" data-aria-posinset="3" data-aria-level="1"><strong><span data-contrast="auto">Hypervisor Virtualization:</span></strong><span data-contrast="auto">&nbsp;Engineered and&nbsp;maintained&nbsp;virtualized enterprise clusters&nbsp;utilizing&nbsp;hypervisors including&nbsp;Proxmox&nbsp;VE, VMware, and Linux KVM to maximize hardware efficiency and system uptime.&nbsp;</span><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559738&quot;:240,&quot;335559739&quot;:240}">&nbsp;</span></li>
-</ul>
-<ul>
-<li data-leveltext="" data-font="Symbol" data-listid="10" data-list-defn-props="{&quot;335552541&quot;:1,&quot;335559683&quot;:0,&quot;335559684&quot;:-2,&quot;335559685&quot;:420,&quot;335559991&quot;:420,&quot;469769226&quot;:&quot;Symbol&quot;,&quot;469769242&quot;:[8226],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" data-aria-posinset="4" data-aria-level="1"><strong><span data-contrast="auto">Network Operations Support:</span></strong><span data-contrast="auto">&nbsp;Monitored&nbsp;system state health and enterprise wide-area networking topologies&nbsp;utilizing&nbsp;automated tooling suites (Nagios,&nbsp;LibreNMS, Cacti).&nbsp;</span><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559738&quot;:240,&quot;335559739&quot;:240}">&nbsp;</span></li>
-</ul>
-<ul>
-<li data-leveltext="" data-font="Symbol" data-listid="10" data-list-defn-props="{&quot;335552541&quot;:1,&quot;335559683&quot;:0,&quot;335559684&quot;:-2,&quot;335559685&quot;:420,&quot;335559991&quot;:420,&quot;469769226&quot;:&quot;Symbol&quot;,&quot;469769242&quot;:[8226],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" data-aria-posinset="5" data-aria-level="1"><strong><span data-contrast="auto">Lifecycle Management:</span></strong><span data-contrast="auto">&nbsp;Coordinated hardware and software&nbsp;component&nbsp;upgrades across multi-tenant environments, updating user accounts, service provisioning records, and asset inventories.&nbsp;</span><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559738&quot;:240,&quot;335559739&quot;:240}">&nbsp;</span></li>
-</ul>
-<p><strong><span data-contrast="none"><span data-ccp-parastyle="heading 3">IT Support Engineer</span></span></strong><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;134245418&quot;:true,&quot;134245529&quot;:true,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559738&quot;:0,&quot;335559739&quot;:281}">&nbsp;</span></p>
-<p><strong><span data-contrast="auto">Tappware&nbsp;Solutions Limited</span></strong><span data-contrast="auto">&nbsp;|&nbsp;</span><em><span data-contrast="auto">Jan 2014 &ndash; Dec 2015 (Dhaka, Bangladesh)</span></em><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559738&quot;:0,&quot;335559739&quot;:240}">&nbsp;</span></p>
-<ul>
-<li data-leveltext="" data-font="Symbol" data-listid="11" data-list-defn-props="{&quot;335552541&quot;:1,&quot;335559683&quot;:0,&quot;335559684&quot;:-2,&quot;335559685&quot;:420,&quot;335559991&quot;:420,&quot;469769226&quot;:&quot;Symbol&quot;,&quot;469769242&quot;:[8226],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" data-aria-posinset="1" data-aria-level="1"><strong><span data-contrast="auto">Hardware Deployment:</span></strong><span data-contrast="auto">&nbsp;Installed, assembled, and systematically configured bare-metal computers, corporate hardware terminals, and operating systems.&nbsp;</span><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559738&quot;:240,&quot;335559739&quot;:240}">&nbsp;</span></li>
-</ul>
-<ul>
-<li data-leveltext="" data-font="Symbol" data-listid="11" data-list-defn-props="{&quot;335552541&quot;:1,&quot;335559683&quot;:0,&quot;335559684&quot;:-2,&quot;335559685&quot;:420,&quot;335559991&quot;:420,&quot;469769226&quot;:&quot;Symbol&quot;,&quot;469769242&quot;:[8226],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" data-aria-posinset="2" data-aria-level="1"><strong><span data-contrast="auto">Network Troubleshooting:</span></strong><span data-contrast="auto">&nbsp;Diagnosed and repaired faults across client networks and physical infrastructure deployments following schematic diagrams and written logical maps.&nbsp;</span><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559738&quot;:240,&quot;335559739&quot;:240}">&nbsp;</span></li>
-</ul>
-<ul>
-<li data-leveltext="" data-font="Symbol" data-listid="11" data-list-defn-props="{&quot;335552541&quot;:1,&quot;335559683&quot;:0,&quot;335559684&quot;:-2,&quot;335559685&quot;:420,&quot;335559991&quot;:420,&quot;469769226&quot;:&quot;Symbol&quot;,&quot;469769242&quot;:[8226],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" data-aria-posinset="3" data-aria-level="1"><strong><span data-contrast="auto">Incident Queue Management:</span></strong><span data-contrast="auto">&nbsp;Prioritized and systematically resolved multiple simultaneous open hardware and ticketing cases under defined Service Level Agreements (SLAs).&nbsp;</span><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559738&quot;:240,&quot;335559739&quot;:240}">&nbsp;</span></li>
-</ul>
-<p><strong><span data-contrast="none"><span data-ccp-parastyle="heading 2">EDUCATION &amp; PROFESSIONAL TRAINING</span></span></strong><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;134245418&quot;:true,&quot;134245529&quot;:true,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559738&quot;:0,&quot;335559739&quot;:299}">&nbsp;</span></p>
-<ul>
-<li data-leveltext="" data-font="Symbol" data-listid="12" data-list-defn-props="{&quot;335552541&quot;:1,&quot;335559683&quot;:0,&quot;335559684&quot;:-2,&quot;335559685&quot;:420,&quot;335559991&quot;:420,&quot;469769226&quot;:&quot;Symbol&quot;,&quot;469769242&quot;:[8226],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" data-aria-posinset="1" data-aria-level="1"><strong><span data-contrast="auto">Google IT Support Professional Certificate</span></strong><span data-contrast="auto">&nbsp;|&nbsp;</span><em><span data-contrast="auto">Coursera / In Progress (Expected Completion: 2026)</span></em><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559738&quot;:240,&quot;335559739&quot;:240}">&nbsp;</span></li>
-</ul>
-<ul>
-<li data-leveltext="" data-font="Symbol" data-listid="12" data-list-defn-props="{&quot;335552541&quot;:1,&quot;335559683&quot;:0,&quot;335559684&quot;:-2,&quot;335559685&quot;:420,&quot;335559991&quot;:420,&quot;469769226&quot;:&quot;Symbol&quot;,&quot;469769242&quot;:[8226],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" data-aria-posinset="2" data-aria-level="1"><strong><span data-contrast="auto">Diploma in Computer Science and ICT</span></strong><span data-contrast="auto">&nbsp;|&nbsp;</span><em><span data-contrast="auto">Shyamoli Ideal Polytechnic Institute (2018 &ndash; 2020)</span></em><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559738&quot;:240,&quot;335559739&quot;:240}">&nbsp;</span></li>
-</ul>
-<ul>
-<li data-leveltext="" data-font="Symbol" data-listid="12" data-list-defn-props="{&quot;335552541&quot;:1,&quot;335559683&quot;:0,&quot;335559684&quot;:-2,&quot;335559685&quot;:420,&quot;335559991&quot;:420,&quot;469769226&quot;:&quot;Symbol&quot;,&quot;469769242&quot;:[8226],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" data-aria-posinset="3" data-aria-level="1"><strong><span data-contrast="auto">Bachelor and Master&nbsp;Degree</span></strong><em><span data-contrast="auto">:&nbsp;</span></em><span data-contrast="auto">History&nbsp;(2003-2008)</span><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559738&quot;:240,&quot;335559739&quot;:240}">&nbsp;</span></li>
-</ul>
-<ul>
-<li data-leveltext="" data-font="Symbol" data-listid="12" data-list-defn-props="{&quot;335552541&quot;:1,&quot;335559683&quot;:0,&quot;335559684&quot;:-2,&quot;335559685&quot;:420,&quot;335559991&quot;:420,&quot;469769226&quot;:&quot;Symbol&quot;,&quot;469769242&quot;:[8226],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" data-aria-posinset="4" data-aria-level="1"><strong><span data-contrast="auto">RedHat Certified Solution Architect (RHCSA) Professional Training</span></strong><span data-contrast="auto">&nbsp;|&nbsp;</span><em><span data-contrast="auto">CSL Training (CentOS 7 Core Focus)</span></em><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559738&quot;:240,&quot;335559739&quot;:240}">&nbsp;</span></li>
-</ul>
-<ul>
-<li data-leveltext="o" data-font="Courier New" data-listid="12" data-list-defn-props="{&quot;335552541&quot;:1,&quot;335559683&quot;:1,&quot;335559684&quot;:-2,&quot;335559685&quot;:840,&quot;335559991&quot;:420,&quot;469769226&quot;:&quot;Courier New&quot;,&quot;469769242&quot;:[9675],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;o&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" data-aria-posinset="1" data-aria-level="2"><em><span data-contrast="auto">Core focus domains:</span></em><span data-contrast="auto">&nbsp;LVM Storage Architecture, System Daemons, Core Networking Architecture, User/Group Permissions, and File Systems.&nbsp;</span><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559738&quot;:240,&quot;335559739&quot;:240}">&nbsp;</span></li>
-</ul>
-<ul>
-<li data-leveltext="" data-font="Symbol" data-listid="12" data-list-defn-props="{&quot;335552541&quot;:1,&quot;335559683&quot;:0,&quot;335559684&quot;:-2,&quot;335559685&quot;:420,&quot;335559991&quot;:420,&quot;469769226&quot;:&quot;Symbol&quot;,&quot;469769242&quot;:[8226],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" data-aria-posinset="5" data-aria-level="1"><strong><span data-contrast="auto">IT Support and Management Intensive</span></strong><span data-contrast="auto">&nbsp;|&nbsp;</span><em><span data-contrast="auto">Fast Track Future Leader (FTFL), Bangladesh Gov. Project</span></em><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559738&quot;:240,&quot;335559739&quot;:240}">&nbsp;</span></li>
-</ul>
-<ul>
-<li data-leveltext="o" data-font="Courier New" data-listid="12" data-list-defn-props="{&quot;335552541&quot;:1,&quot;335559683&quot;:1,&quot;335559684&quot;:-2,&quot;335559685&quot;:840,&quot;335559991&quot;:420,&quot;469769226&quot;:&quot;Courier New&quot;,&quot;469769242&quot;:[9675],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;o&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" data-aria-posinset="1" data-aria-level="2"><em><span data-contrast="auto">Core focus domains:</span></em><span data-contrast="auto">&nbsp;Computer Maintenance, Subnetting, Data Communications, Linux/Windows Server infrastructure.</span><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559738&quot;:240,&quot;335559739&quot;:240}">&nbsp;</span></li>
-</ul>
-<!-- Comments are visible in the HTML source only -->
-     </div>
+
+<!-- ═══════════════════════  PAGE 1  ═══════════════════════ -->
+<div class="page">
+
+  <header class="cv-header">
+    <div>
+      <div class="cv-header__name">Abu Jafar Al Farhad</div>
+      <div class="cv-header__title">IT Infrastructure Engineer &amp; Data Center Technician</div>
+    </div>
+    <div class="cv-header__contact">
+      Kotka, Finland<br>
+      (+358) 415 774 143<br>
+      <a href="mailto:abujafaralfarhad@gmail.com">abujafaralfarhad@gmail.com</a><br>
+      LinkedIn · GitHub Pages<br>
+      English C1 &nbsp;|&nbsp; Finnish A2
+    </div>
+  </header>
+
+  <!-- SUMMARY -->
+  <section class="section">
+    <div class="section__label">Professional Summary</div>
+    <p class="summary">
+      Highly skilled and resilient IT Infrastructure Engineer with 10+ years of experience across Linux System Administration, Enterprise Networking, and physical infrastructure operations. Currently executing physical-layer fiber deployments on-site at the Google Hamina Data Center. Deep technical expertise spans structured cabling, high-density patch fields, hardware lifecycle installations, network topology, server virtualization, and multi-platform bare-metal Out-of-Band administration. Proven track record in mission-critical environments under strict safety and security compliance. Capable of lifting up to 23 kg and fully flexible for shift-based schedules.
+    </p>
+  </section>
+
+  <!-- SKILLS -->
+  <section class="section">
+    <div class="section__label">Technical Skills Matrix</div>
+    <div class="skills-grid">
+      <div class="skill-group">
+        <div class="skill-group__name">Data Center Operations</div>
+        <div class="skill-group__tags">Physical Infrastructure · Fiber Optic Deployment · Structured Cabling (SM/MM) · Rack Integration &amp; Elevation · Component Break-Fix (CPU, RAM, HDD/SSD, PSU) · Optic Module &amp; FRU Management · EoL Disassembly</div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group__name">Out-of-Band Management</div>
+        <div class="skill-group__tags">BMC Network Config · IPMI · Dell iDRAC · HP iLO · IBM IMM · Ericsson Web Panels · Remote KVM Console · RAID Configuration · Bare-Metal OS Deployment · BIOS/UEFI · Hardware Sensor Monitoring</div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group__name">Systems &amp; Networking</div>
+        <div class="skill-group__tags">Linux Expert (Ubuntu, Debian, CentOS, RHEL CLI) · TCP/IP · Subnetting · DNS · DHCP · VPN · MikroTik Router Admin · LibreNMS · Cacti · Observium · Zabbix · Nagios · NewRelic</div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group__name">Virtualization &amp; Cloud</div>
+        <div class="skill-group__tags">Proxmox VE · VMware · Linux KVM · Oracle VirtualBox · Docker · AWS · Azure · DigitalOcean</div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group__name">Leadership &amp; Project Management</div>
+        <div class="skill-group__tags">Technical Team Leadership · Cross-Functional Collaboration · Risk Analysis · Contingency Planning · Project Documentation</div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group__name">Site Safety &amp; Compliance</div>
+        <div class="skill-group__tags">Google DC Procedures · MEWP Spotting · Hazard Mitigation · ESD Control · Clearance Enforcement · Industrial Safety Protocols</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE — first two roles -->
+  <section class="section">
+    <div class="section__label">Professional Experience</div>
+
+    <div class="job">
+      <div class="job__header">
+        <div class="job__title">ICT Installer <span class="badge">Active</span></div>
+        <div class="job__period">Jan 2026 – Present</div>
+      </div>
+      <div class="job__company">Adecco Finland Oy / Fiber Highway Oy — Google Data Center, Hamina, Finland</div>
+      <ul class="job__bullets">
+        <li>Execute precision pulling, routing, and high-density termination of singlemode and multimode fiber optic infrastructure inside an active hyper-scale Google production environment.</li>
+        <li>Perform physical-layer infrastructure installations, server rack seating, and component-level device patching for critical networking hardware including high-speed transceiver optic modules.</li>
+        <li>Read and interpret complex technical blueprints and routing installation guides to ensure rigorous infrastructure quality control, troubleshooting, and design-tolerance compliance.</li>
+        <li>Maintain an incident-free safety record on active production floors, strictly enforcing DC procedures, height-safety, and industrial safety protocols.</li>
+      </ul>
+    </div>
+
+    <div class="job">
+      <div class="job__header">
+        <div class="job__title">Spotter – Site Safety Assistant</div>
+        <div class="job__period">May 2025 – Dec 2025</div>
+      </div>
+      <div class="job__company">Lisapalvelu Kotka Oy / DECO Engineering — Google DC Expansion LPP6-A, Hamina, Finland</div>
+      <ul class="job__bullets">
+        <li>Managed on-site safety operations for electrical engineering teams during critical construction and deployment phases of Google's LPP6-A hyper-scale expansion project.</li>
+        <li>Controlled heavy machinery movements, MEWPs, and crane clearances using structured two-way radio patterns and standard signaling to prevent structural impacts and personnel hazards.</li>
+        <li>Maintained physical barriers, exclusion zones, and hazard-mitigation vectors near live electrical systems, fostering a proactive zero-accident safety environment.</li>
+        <li>Collaborated closely with project teams to monitor technical risks and maintain workplace integrity during large-scale installations.</li>
+      </ul>
+    </div>
+
+  </section>
+
+  <footer class="page-footer">
+    <span><span class="page-footer__accent"></span>Abu Jafar Al Farhad — Curriculum Vitae</span>
+    <span>Page 1 / 2</span>
+  </footer>
+</div>
+<!-- end page 1 -->
+
+
+<!-- ═══════════════════════  PAGE 2  ═══════════════════════ -->
+<div class="page">
+
+  <header class="cv-header">
+    <div>
+      <div class="cv-header__name">Abu Jafar Al Farhad</div>
+      <div class="cv-header__title">IT Infrastructure Engineer &amp; Data Center Technician</div>
+    </div>
+    <div class="cv-header__contact">
+      <a href="mailto:abujafaralfarhad@gmail.com">abujafaralfarhad@gmail.com</a><br>
+      (+358) 415 774 143
+    </div>
+  </header>
+
+  <!-- EXPERIENCE continued -->
+  <section class="section">
+    <div class="section__label">Professional Experience (continued)</div>
+
+    <div class="job">
+      <div class="job__header">
+        <div class="job__title">Infrastructure Manager &amp; Technical Team Leader</div>
+        <div class="job__period">Jul 2018 – Nov 2025</div>
+      </div>
+      <div class="job__company">Tappware Solutions Limited — Dhaka, Bangladesh</div>
+      <ul class="job__bullets">
+        <li>Configured and maintained secure BMC networks; utilized IPMI via Dell iDRAC, HP iLO, IBM IMM, and Ericsson panels to troubleshoot, power-cycle, recover, and provision bare-metal hardware remotely without crash-carts.</li>
+        <li>Diagnosed and resolved complex hardware, OS, and network faults across client bare-metal servers; performed hot-swaps of RAM, enterprise HDDs/SSDs, and redundant PSUs to maintain high-availability cluster uptime.</li>
+        <li>Led and coordinated a team of engineers for server system development, IT automation, and mission-critical software deployment; established contingency plans to minimize downtime.</li>
+        <li>Administered Linux operating systems (Ubuntu, Debian, RedHat) at deep CLI level; monitored and maintained server infrastructure across the full stack.</li>
+        <li>Engineered and maintained virtualized enterprise clusters using Proxmox VE, VMware, and Linux KVM to maximize hardware lifecycle efficiency and system uptime.</li>
+      </ul>
+    </div>
+
+    <div class="job">
+      <div class="job__header">
+        <div class="job__title">Senior Project Coordinator</div>
+        <div class="job__period">Jan 2016 – Jun 2018</div>
+      </div>
+      <div class="job__company">Tappware Solutions Limited — Dhaka, Bangladesh</div>
+      <ul class="job__bullets">
+        <li>Coordinated project management activities, hardware resources, equipment deployment logistics, and operational data across cross-functional engineering teams.</li>
+        <li>Analyzed technical risks and opportunities, evaluated infrastructure bottlenecks, and developed contingency plans to keep deployment workflows on track.</li>
+        <li>Created and maintained comprehensive project documentation, lifecycle deployment plans, and structural tracking sheets.</li>
+      </ul>
+    </div>
+
+    <div class="job">
+      <div class="job__header">
+        <div class="job__title">IT Support Engineer</div>
+        <div class="job__period">Jan 2014 – Dec 2015</div>
+      </div>
+      <div class="job__company">Tappware Solutions Limited — Dhaka, Bangladesh</div>
+      <ul class="job__bullets">
+        <li>Installed, assembled, and configured bare-metal computer hardware, corporate terminals, and local servers running Linux operating systems.</li>
+        <li>Diagnosed and repaired faults across client networks and physical infrastructure deployments following schematics and written data center procedures.</li>
+        <li>Managed stock inventories of IT equipment and consumables; ensured data security during end-of-life disposal.</li>
+      </ul>
+    </div>
+
+    <div class="job">
+      <div class="job__header">
+        <div class="job__title">Technical Support &amp; Team Leader</div>
+        <div class="job__period">May 2009 – Dec 2013</div>
+      </div>
+      <div class="job__company">Bangladesh Election Commission — Intermittent Contracts, Bangladesh</div>
+      <ul class="job__bullets">
+        <li>Deployed, monitored, and troubleshot LAN/WLAN frameworks, networking protocols, and hardware setups under demanding field conditions.</li>
+        <li>Ensured rigorous physical maintenance, hardware validation, periodic database backups, and software updates for all assigned assets.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- EDUCATION -->
+  <section class="section">
+    <div class="section__label">Education &amp; Professional Training</div>
+    <ul class="edu-list">
+      <li>
+        <strong>Google IT Support Professional Certificate</strong>
+        <span>Coursera — In Progress (Expected Completion: 2026)</span>
+      </li>
+      <li>
+        <strong>Diploma in Computer Science and ICT</strong>
+        <span>Shyamoli Ideal Polytechnic Institute — 2018–2020</span>
+      </li>
+      <li>
+        <strong>Master of Arts (M.A.)</strong>
+        <span>National University — 2007–2008</span>
+      </li>
+      <li>
+        <strong>Bachelor of Arts (B.A.)</strong>
+        <span>National University — 2003–2006</span>
+      </li>
+      <li>
+        <strong>RedHat Certified Solution Architect (RHCSA) Professional Training</strong>
+        <span>CSL Training — CentOS 7 Focus: LVM Storage, System Daemons, Core Networking, User/Group Permissions, File Systems</span>
+      </li>
+      <li>
+        <strong>IT Support and Management Intensive</strong>
+        <span>Fast Track Future Leader (FTFL), Bangladesh Gov. Project — Computer Maintenance, Subnetting, Data Communications, Linux/Windows Server Infrastructure</span>
+      </li>
+    </ul>
+  </section>
+
+  <footer class="page-footer">
+    <span><span class="page-footer__accent"></span>Abu Jafar Al Farhad — Curriculum Vitae</span>
+    <span>Page 2 / 2</span>
+  </footer>
+</div>
+<!-- end page 2 -->
+
 </body>
 </html>
